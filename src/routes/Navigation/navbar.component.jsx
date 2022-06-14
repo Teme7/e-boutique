@@ -1,13 +1,29 @@
-import { Outlet } from 'react-router-dom';
+import { Fragment } from 'react';
+import { Outlet, Link } from 'react-router-dom';
+import { ReactComponent as CrwnLcogo } from '../../assets/crown.svg';
+import './navbar.styles.scss';
 
 const Navbar = () => {
   return (
-    <div>
-      <div>
-        <h2>Here is the navbar!!</h2>
+    <Fragment>
+      <div className='navbar'>
+        <Link className='logo-container' to='/'>
+          <CrwnLcogo className='logo' />
+        </Link>
+        <div className='nav-links-container'>
+          <Link className='nav-link' to='cart'>
+            CART
+          </Link>
+          <div>
+            <Link to='about-us'>
+              AboutUs
+            </Link>
+          </div>
+          
+        </div>
       </div>
       <Outlet />
-    </div>
+    </Fragment>
   );
 }
 
