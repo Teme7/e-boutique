@@ -5,6 +5,14 @@ import { getAuth,
   GoogleAuthProvider
  } from 'firebase/auth';
 
+ import {
+  getFirestore,
+  doc, //to retrieve the document inside firestore
+  getDoc, // to read data in the doc
+  setDoc // to set the data in the doc
+
+ } from 'firebase/firestore';
+
 const firebaseConfig = {
   apiKey: "AIzaSyATG6WW5l4ylsgNkO-wlo45F2uQLhYUCQg",
   authDomain: "e-boutique-db.firebaseapp.com",
@@ -18,10 +26,36 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 const provider = new GoogleAuthProvider();
-
 provider.setCustomParameters({
   prompt: 'select_account'
 });
 
 export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+
+//instiating the Firestore db
+export const db = getFirestore(); //this db points to the db inside console
+
+export const createUserDocumentFromAuth = async (userAuth) => {
+  const userDocRef = doc(db, 'user', userAuth.uid )
+
+  // console.log(userDocRef)
+  const userSnopshot = await getDoc(userDocRef); //checks for ref of the doc in the db
+  console.log(userSnopshot); 
+  console.log(userSnopshot.exists()); //checks for data in the doc
+
+  if(!userSnopshot.exists()) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      setDoc(userDocRef, {
+        displayName,
+        email,
+        createdAt,
+      });
+    } catch(error) {
+        console.log("Error creating user", error.message);
+    }
+  }
+}
