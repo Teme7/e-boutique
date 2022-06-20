@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth,
-  signInWithRedirect,
+  // signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider
  } from 'firebase/auth';
@@ -10,7 +10,6 @@ import { getAuth,
   doc, //to retrieve the document inside firestore
   getDoc, // to read data in the doc
   setDoc // to set the data in the doc
-
  } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -33,7 +32,7 @@ GoogleProvider.setCustomParameters({
 
 export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth, GoogleProvider);
-export const signInWithGoogleRedirect = () => signInWithRedirect(auth, GoogleProvider);
+// export const signInWithGoogleRedirect = () => signInWithRedirect(auth, GoogleProvider);
 
 //instiating the Firestore db
 export const db = getFirestore(); //this db points to the db inside console
