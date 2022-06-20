@@ -2,7 +2,8 @@ import { initializeApp } from 'firebase/app';
 import { getAuth,
   // signInWithRedirect,
   signInWithPopup,
-  GoogleAuthProvider
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword
  } from 'firebase/auth';
 
  import {
@@ -37,7 +38,9 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, GoogleProvider)
 //instiating the Firestore db
 export const db = getFirestore(); //this db points to the db inside console
 
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInfo={}) => {
+  if(!userAuth) return; //protects the front-end app from the services eg. Firebase it relies on
+
   const userDocRef = doc(db, 'user', userAuth.uid )
 
   // console.log(userDocRef)
@@ -54,9 +57,16 @@ export const createUserDocumentFromAuth = async (userAuth) => {
         displayName,
         email,
         createdAt,
+        ...additionalInfo
       });
     } catch(error) {
         console.log("Error creating user", error.message);
     }
   }
+}
+
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+  if(!email || !password) return;
+
+  return await createUserWithEmailAndPassword(auth, email, password);
 }
