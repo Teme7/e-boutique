@@ -13,7 +13,7 @@ const Navbar = () => {
           <Link className='nav-link' to='cart'>
             CART
           </Link>
-          <Link className='nav-link' to='sign-in'>
+          <Link className='nav-link' to='auth'>
             Sign In
           </Link>
           <Link to='about-us'>
