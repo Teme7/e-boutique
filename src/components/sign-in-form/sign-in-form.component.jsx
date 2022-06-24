@@ -36,7 +36,16 @@ const SignInForm = () => {
       console.log(response);
       resetFormFields();
     } catch(error) {
-      console.error('Wait, you may not have an account with us yet. Please sign up.', error.message);
+      switch(error.code) {
+        case 'auth/user-not-found':
+          alert('No user associated with this email');
+          break;
+        case 'auth/wrong-password':
+          alert('Incorrect password for this email');
+          break;
+        default:
+          console.log(error);
+      }
     }
   }
 
@@ -72,7 +81,7 @@ const SignInForm = () => {
 
         <div className='buttons-container'>
           <Button type='submit'>Sign In</Button>
-          <Button buttonType='google' onClick={signInWithGoogle}>Google Sign In</Button>
+          <Button type='button' buttonType='google' onClick={signInWithGoogle}>Google Sign In</Button>
         </div>
       </form>
     </div>
