@@ -17,8 +17,8 @@ const Navbar = () => {
           <CrwnLogo className='logo' />
         </Link>
         <div className='nav-links-container'>
-          <Link className='nav-link' to='cart'>
-            CART
+          <Link className='nav-link' to='shop'>
+            SHOP
           </Link>
           {currentUser ? (
             <span className='nav-link' onClick={signOutUser}>
@@ -26,12 +26,9 @@ const Navbar = () => {
             </span>
           ) : (
             <Link className='nav-link' to='auth'>
-              Sign In
+              SIGN IN
             </Link>
-          )}
-          <Link to='about-us'>
-            AboutUs
-          </Link>          
+          )}         
         </div>
       </div>
       <Outlet />
