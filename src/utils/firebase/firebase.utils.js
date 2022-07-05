@@ -14,7 +14,9 @@ import {
   getFirestore,
   doc, //to retrieve the document inside firestore
   getDoc, // to read data in the doc
-  setDoc // to set the data in the doc
+  setDoc, // to set the data in the doc
+  collection,
+  writeBatch
  } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -41,6 +43,19 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, GoogleProvider)
 
 //instiating the Firestore db
 export const db = getFirestore(); //this db points to the db inside console
+
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
+
+  objectsToAdd.forEach((object) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    batch.set(docRef, object);
+  })
+
+  await batch.commit();
+  console.log('done');
+}
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInfo={}) => {
   if(!userAuth) return; //protects the front-end app from the services eg. Firebase it relies on
