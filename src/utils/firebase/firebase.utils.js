@@ -16,7 +16,9 @@ import {
   getDoc, // to read data in the doc
   setDoc, // to set the data in the doc
   collection,
-  writeBatch
+  writeBatch,
+  query,
+  getDocs  //fetches doc snapshot
  } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -55,6 +57,22 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
 
   await batch.commit();
   console.log('done');
+}
+
+/*such helper methods protect our app from 3rd party (eg. google's firestore) 
+implementation changes and are easiet to update our code when such changes occur */
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, 'categories');
+  const q = query(collectionRef);
+
+  const querySnopshot = await getDocs(q);
+  const categoryMap = querySnopshot.docs.reduce((acc, docSnopshot) => {
+    const { title, items } = docSnopshot.data();
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, {})
+
+  return categoryMap;
 }
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInfo={}) => {
