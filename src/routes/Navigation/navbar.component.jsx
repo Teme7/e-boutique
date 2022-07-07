@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { Fragment, useContext } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 
 import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';
@@ -15,7 +15,7 @@ const Navbar = () => {
   const { currentUser } = useContext(UserContext);
   const { isCartOpen } = useContext(CartContext);
   return (
-    <>
+    <Fragment>
       <div className='navbar'>
         <Link className='logo-container' to='/'>
           <CrwnLogo className='logo' />
@@ -38,7 +38,7 @@ const Navbar = () => {
         {isCartOpen && <CartDropdown />} {/* short-hand to conditionaly display dropdown */}
       </div>
       <Outlet />
-    </>
+    </Fragment>
   );
 }
 
