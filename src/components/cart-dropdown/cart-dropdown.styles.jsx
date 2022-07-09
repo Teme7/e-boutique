@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { BaseButton, GoogleSignInButton, InvertedButton } from '../button/button.styles';
+
 export const CartDropdownContainer = styled.div`
   position: absolute;
   width: 240px;
@@ -13,9 +15,16 @@ export const CartDropdownContainer = styled.div`
   right: 40px;
   z-index: 5;
 
-  button {
+  ${BaseButton},     // such nesting helps target a specific element, very powerful!
+  ${GoogleSignInButton},
+  ${InvertedButton} {
     margin-top: auto;
   }
+`;
+
+export const EmptyMessage = styled.span`
+  font-size: 18px;
+  margin: 50px auto;
 `;
 
 export const CartItems = styled.div`
